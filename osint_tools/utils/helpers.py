@@ -1,30 +1,51 @@
-import requests
-import re
+"""General-purpose helper utilities."""
+
 import json
-
-# Utility functions for HTTP requests, URL validation, JSON formatting, and batch processing
-
-def send_http_request(method, url, data=None, headers=None):
-    """Send an HTTP request and return the response."""
-    response = requests.request(method, url, json=data, headers=headers)
-    response.raise_for_status()  # Raise an error for bad responses
-    return response.json()
+import re
+from typing import Any, Callable, Iterable, List
 
 
-def validate_url(url):
-    """Validate a URL using a regular expression."""
-    regex = re.compile(r'^(https?://)?([a-z0-9-]+\.)+[a-z]{2,}(/.*)?$')
-    return re.match(regex, url) is not None
+def validate_url(url: str) -> bool:
+    """Validate whether a string is a well-formed URL.
+
+    Args:
+        url: The string to validate.
+
+    Returns:
+        ``True`` if the URL looks valid, ``False`` otherwise.
+    """
+    regex = re.compile(r"^(https?://)([a-z0-9-]+\.)+[a-z]{2,}(/.*)?$", re.IGNORECASE)
+    return bool(re.match(regex, url))
 
 
-def format_json(data):
-    """Format data as pretty-printed JSON."""
-    return json.dumps(data, indent=4)
+def format_json(data: Any, indent: int = 4) -> str:
+    """Serialise *data* as a pretty-printed JSON string.
+
+    Args:
+        data: Any JSON-serialisable Python object.
+        indent: Number of spaces used for indentation.
+
+    Returns:
+        A formatted JSON string.
+    """
+    return json.dumps(data, indent=indent, default=str)
 
 
-def batch_process(items, function, *args):
-    """Process items in batches using the provided function."""
-    results = []
-    for item in items:
-        results.append(function(item, *args))
-    return results
+def batch_process(
+    items: Iterable[Any],
+    function: Callable,
+    *args: Any,
+    **kwargs: Any,
+) -> List[Any]:
+    """Apply *function* to every item in *items*.
+
+    Args:
+        items: An iterable of inputs.
+        function: A callable that accepts an item as its first argument.
+        *args: Extra positional arguments forwarded to *function*.
+        **kwargs: Extra keyword arguments forwarded to *function*.
+
+    Returns:
+        A list of results in the same order as *items*.
+    """
+    return [function(item, *args, **kwargs) for item in items]
