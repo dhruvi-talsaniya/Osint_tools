@@ -1,0 +1,10 @@
+include README.md
+include LICENSE
+include CHANGELOG.md
+include CONTRIBUTING.md
+include SECURITY.md
+include requirements.txt
+include config.yaml
+include .env.example
+recursive-include osint_tools *.py
+recursive-include tests *.py

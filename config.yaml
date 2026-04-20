@@ -1,0 +1,20 @@
+# OSINT Tools – Configuration File
+# ──────────────────────────────────
+# All settings here can be overridden by environment variables.
+# See .env.example for the corresponding environment variable names.
+
+# Logging
+log_level: INFO
+log_file: ""          # empty string = no file logging
+
+# Caching
+cache_ttl: 3600       # seconds; 0 = no expiry
+
+# HTTP behaviour
+request_timeout: 15   # seconds
+request_retries: 3
+rate_limit_delay: 0.5 # seconds between requests
+
+# API keys (prefer environment variables to avoid committing secrets)
+ipgeolocation_api_key: ""
+hibp_api_key: ""
