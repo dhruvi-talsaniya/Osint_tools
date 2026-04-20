@@ -1,0 +1,20 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Environments
+.env
+venv/
+
+# Distribution
+dist/
+build/
+
+# IDE configurations
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Jupyter Notebook Checkpoints
+.ipynb_checkpoints/
